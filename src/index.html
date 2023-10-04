@@ -10,7 +10,16 @@
   <body>
     <main>
       <h1>Vanilla JavaScript App</h1>
-      <h4>hello from slice 4</h4>
+      <p>Loading content from the API: <b id="message"></b></b></p>
     </main>
   </body>
+
+  <script>
+    (async function () {
+      let response = await fetch(`api/GetMessage`);
+      let message = await response.text();
+
+      document.querySelector("#message").innerHTML = message;
+    })();
+  </script>
 </html>
