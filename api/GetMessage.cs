@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -21,8 +23,13 @@ namespace StaticWebAppsEndToEndTesting.GetMessage
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request! :) ");
-            string message = File.ReadAllText(context.FunctionAppDirectory + "/content.txt");
-            return new OkObjectResult(message);
+            StringBuilder sb = new StringBuilder();
+            foreach (DictionaryEntry e in System.Environment.GetEnvironmentVariables())
+            {
+                sb.AppendLine(e.Key + ":" + e.Value);
+            }
+
+            return new OkObjectResult(sb.ToString());
         }
     }
 }
